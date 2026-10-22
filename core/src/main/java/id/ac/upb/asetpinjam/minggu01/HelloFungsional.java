@@ -14,7 +14,7 @@ public final class HelloFungsional {
      * yang memuat "Aset-Pinjam", nama tersebut, dan NIM yang diberikan. Gunakan lambda.
      */
     public static Function<String, String> pembuatSapaan(String nim) {
-        return nama -> "Aset-Pinjam " + nama + " (NIM: " + nim + ")";
+        return nama -> "selamat datang di Aset-Pinjam, saya " + nama + " (" + nim + ")";
     }
 
     public static void main(String[] args) {

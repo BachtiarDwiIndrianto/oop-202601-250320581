@@ -16,7 +16,7 @@ public class HelloOOP {
 
     /** Menghasilkan sapaan yang memuat nama dan NIM mahasiswa. */
     public String sapa() {
-        return "Halo, " + nama + "! Selamat datang di Aset-Pinjam (NIM: " + nim + ")";
+        return "selamat datang di Aset-Pinjam, saya " + this.nama + " (" + this.nim + ")";
     }
 
     public static void main(String[] args) {

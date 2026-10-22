@@ -14,12 +14,16 @@ Bobot: Quiz 2%, Praktikum 3%, Observasi 1%.
 
 ## Aturan pasti (dipakai tes)
 
-- Ketiga gaya menghasilkan teks yang sama: memuat "Aset-Pinjam", nama, dan NIM.
+- Ketiga gaya harus menghasilkan **teks yang persis sama** untuk nama dan NIM yang sama. Teks tersebut memuat "Aset-Pinjam", nama, dan NIM.
 - Gaya prosedural: fungsi statis. OOP: class dengan field private. Fungsional: lambda yang dikembalikan sebuah fungsi.
 
 ## Keputusan Anda
 
-- Bentuk kalimat sapaan (selama memuat tiga unsur di atas).
+- Bentuk kalimat sapaan (selama memuat tiga unsur di atas dan ketiga hasilnya persis sama).
+
+## Data mahasiswa
+
+Isi `nim` dan `nama` di `core/src/main/resources/mahasiswa.properties` dengan data Anda sendiri. Jangan biarkan nilai contoh atau placeholder. NIM harus berakhir dengan angka.
 
 ## Tes
 
