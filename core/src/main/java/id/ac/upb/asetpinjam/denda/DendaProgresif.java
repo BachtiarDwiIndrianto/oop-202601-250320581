@@ -2,6 +2,7 @@ package id.ac.upb.asetpinjam.denda;
 
 import id.ac.upb.asetpinjam.kontrak.AturanDenda;
 import id.ac.upb.asetpinjam.model.Aset;
+import java.math.BigInteger;
 
 /**
  * Minggu 5: denda yang makin berat bila makin lama terlambat.
@@ -13,6 +14,24 @@ public class DendaProgresif implements AturanDenda {
 
     @Override
     public long hitung(Aset aset, int hariTerlambat) {
-        throw new UnsupportedOperationException("TODO minggu 5: DendaProgresif.hitung");
+        if (aset == null) {
+            throw new IllegalArgumentException("aset tidak boleh null");
+        }
+        if (hariTerlambat < 0) {
+            throw new IllegalArgumentException("hari terlambat tidak boleh negatif");
+        }
+        if (hariTerlambat == 0) {
+            return 0;
+        }
+
+        // Tambahan progresif bertambah linear: ceil(flat * hari / 30).
+        // Dengan demikian denda selalu minimal flat dan pada hari ke-30 menjadi 2x flat.
+        long flat = aset.hitungDenda(hariTerlambat);
+        BigInteger nilaiFlat = BigInteger.valueOf(flat);
+        BigInteger tambahan = nilaiFlat.multiply(BigInteger.valueOf(hariTerlambat))
+                .add(BigInteger.valueOf(29))
+                .divide(BigInteger.valueOf(30));
+        BigInteger total = nilaiFlat.add(tambahan);
+        return total.min(BigInteger.valueOf(Long.MAX_VALUE)).longValue();
     }
 }
