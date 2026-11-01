@@ -1,0 +1,136 @@
+classDiagram
+  namespace id.ac.upb.asetpinjam.model {
+    class Aset {
+      -String kode
+      -String nama
+      -StatusAset status
+      -Kondisi kondisi
+      +Aset(String kode, String nama)
+      +String getKode()
+      +String getNama()
+      +StatusAset getStatus()
+      +Kondisi getKondisi()
+      +void setNama(String nama)
+      +void setStatus(StatusAset status)
+      +void setKondisi(Kondisi kondisi)
+      +boolean bisaDipinjam()
+      +JenisAset getJenis()
+      +long hitungDenda(int hariTerlambat)*
+      #long hitungDendaDenganMultiplier(int hariTerlambat, int multiplier)
+    }
+    class Laptop {
+      -String spesifikasi
+      -String nomorInventaris
+      +Laptop(String kode, String nama, String spesifikasi, String nomorInventaris)
+      +String getSpesifikasi()
+      +String getNomorInventaris()
+      +JenisAset getJenis()
+      +long hitungDenda(int hariTerlambat)
+    }
+    class Ruang {
+      -int kapasitas
+      +Ruang(String kode, String nama, int kapasitas)
+      +int getKapasitas()
+      +JenisAset getJenis()
+      +long hitungDenda(int hariTerlambat)
+    }
+    class AlatLab {
+      -String laboratorium
+      -TingkatRisiko tingkatRisiko
+      +AlatLab(String kode, String nama, String laboratorium, TingkatRisiko tingkatRisiko)
+      +String getLaboratorium()
+      +TingkatRisiko getTingkatRisiko()
+      +JenisAset getJenis()
+      +long hitungDenda(int hariTerlambat)
+    }
+    class Peminjam {
+      <<record>>
+      +String id
+      +String nama
+      +Peminjam(String id, String nama)
+    }
+    class Peminjaman {
+      -String id
+      -Peminjam peminjam
+      -Aset aset
+      -LocalDateTime mulai
+      -LocalDateTime selesai
+      -StatusPeminjaman status
+      +Peminjaman(String id, Peminjam peminjam, Aset aset, LocalDateTime mulai, LocalDateTime selesai)
+      +String getId()
+      +Peminjam getPeminjam()
+      +Aset getAset()
+      +LocalDateTime getMulai()
+      +LocalDateTime getSelesai()
+      +StatusPeminjaman getStatus()
+      +void setStatusDariPenyimpanan(StatusPeminjaman status)
+      +void ubahStatus(StatusPeminjaman baru)
+    }
+    class JenisAset {
+      <<enumeration>>
+      RUANG
+      LAPTOP
+      ALAT_LAB
+    }
+    class StatusAset {
+      <<enumeration>>
+      TERSEDIA
+      DIPINJAM
+      RUSAK
+    }
+    class Kondisi {
+      <<enumeration>>
+      BAIK
+      RUSAK_RINGAN
+      RUSAK_BERAT
+    }
+    class StatusPeminjaman {
+      <<enumeration>>
+      DIAJUKAN
+      DISETUJUI
+      DITOLAK
+      DIBATALKAN
+      DIPINJAM
+      TERLAMBAT
+      DIKEMBALIKAN
+    }
+    class TingkatRisiko {
+      <<enumeration>>
+      RENDAH
+      SEDANG
+      TINGGI
+    }
+  }
+  namespace id.ac.upb.asetpinjam.kontrak {
+    class DapatDipinjam {
+      <<interface>>
+      +boolean bisaDipinjam()
+    }
+  }
+  namespace id.ac.upb.asetpinjam.jadwal {
+    class JadwalPeminjaman {
+      -List~Peminjaman~ daftar
+      -int kuotaLaptop
+      +JadwalPeminjaman(int kuotaLaptop)
+      #int kuotaLaptop()
+      #List~Peminjaman~ daftarMutable()
+      +void tambah(Peminjaman p)
+      +boolean bentrok(Peminjaman baru)
+      +List~Peminjaman~ semuaUrutMulai()
+      +Map~String,List~Peminjaman~~ perAset()
+      +boolean hapus(String id)
+      +void ajukan(Peminjaman baru)
+    }
+  }
+  DapatDipinjam <|.. Aset
+  Aset <|-- Laptop
+  Aset <|-- Ruang
+  Aset <|-- AlatLab
+  Aset "1" <-- "0..*" Peminjaman : aset
+  Peminjam "1" <-- "0..*" Peminjaman : peminjam
+  JadwalPeminjaman "1" o-- "0..*" Peminjaman : daftar
+  Aset ..> JenisAset : getJenis
+  Aset ..> StatusAset
+  Aset ..> Kondisi
+  AlatLab ..> TingkatRisiko
+  Peminjaman ..> StatusPeminjaman

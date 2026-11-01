@@ -1,0 +1,23 @@
+sequenceDiagram
+  autonumber
+  actor Pemakai
+  participant Jadwal as jadwal:JadwalPeminjaman
+  participant Peminjaman as baru:Peminjaman
+
+  Note over Pemakai,Peminjaman: Alur ajukan saat ini belum dapat berhasil: bentrok() TODO Minggu 7 dan ajukan() TODO Minggu 9.
+  Pemakai->>Peminjaman: new Peminjaman(id, peminjam, aset, mulai, selesai)
+  Peminjaman->>Peminjaman: validasi data wajib dan selesai > mulai
+  alt waktu valid
+    Peminjaman-->>Pemakai: objek peminjaman, status DIAJUKAN
+    Pemakai->>Jadwal: ajukan(baru)
+    Jadwal--x Pemakai: UnsupportedOperationException (TODO Minggu 9)
+    Note over Pemakai,Jadwal: Skenario sukses belum tersedia pada kode saat ini.
+  else data / rentang waktu tidak valid
+    Peminjaman--x Pemakai: IllegalArgumentException
+  end
+
+  Note over Pemakai,Jadwal: Bentrok membutuhkan bentrok() (TODO Minggu 7) dan ajukan() (TODO Minggu 9), yang belum diimplementasikan.
+  Pemakai->>Peminjaman: buat permintaan lain untuk aset dan rentang yang sama
+  Pemakai->>Jadwal: ajukan(permintaanBentrok)
+  Jadwal--x Pemakai: UnsupportedOperationException (TODO Minggu 9)
+  Note over Pemakai,Jadwal: PeminjamanBentrokException belum dapat terjadi sampai TODO Minggu 7 dan Minggu 9 selesai.
